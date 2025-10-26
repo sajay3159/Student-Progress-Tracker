@@ -44,7 +44,7 @@ const Dashboard = () => {
       {/* Statistic cards */}
       <Grid container spacing={3}>
         {stats.map((stat, index) => (
-          <Grid item xs={12} sm={6} md={3} key={index}>
+          <Grid key={index}>
             <Card
               sx={{
                 borderRadius: 2,
