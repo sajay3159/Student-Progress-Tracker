@@ -4,6 +4,8 @@ import ForgetPage from "./pages/Auth/ForgetPage";
 import SignupPage from "./pages/Auth/SignupPage";
 import PublicRoute from "./pages/Auth/PublicRoute";
 import Dashboard from "./pages/Dashboard/Dashboard";
+import ProtectedRoute from "./pages/Auth/ProtectedRoute";
+import Layout from "./components/Layout/Layout";
 
 const AppRoutes = () => {
   return (
@@ -34,7 +36,19 @@ const AppRoutes = () => {
         }
       />
 
-      <Route path="/dashboard" element={<Dashboard />} />
+      <Route
+        element={
+          <ProtectedRoute>
+            <Layout />
+          </ProtectedRoute>
+        }
+      >
+        <Route path="/dashboard" element={<Dashboard />} />
+        {/* <Route path="/students" element={<Students />} />
+        <Route path="/attendance" element={<Attendance />} />
+        <Route path="/marks" element={<Marks />} />
+        <Route path="/reports" element={<Reports />} /> */}
+      </Route>
 
       {/* Redirect unknown routes */}
       <Route path="*" element={<Navigate to="/login" replace />} />
