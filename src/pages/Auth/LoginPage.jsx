@@ -50,7 +50,7 @@ const LoginPage = () => {
       );
 
       setSuccess("Login successful!");
-      navigate("/home");
+      navigate("/dashboard");
     } catch (err) {
       setError(err.message || "Login failed. Please try again.");
     } finally {
@@ -155,23 +155,6 @@ const LoginPage = () => {
           </Typography>
         </CardContent>
       </Card>
-      <Box mt={2}>
-        <Card variant="outlined">
-          <CardContent sx={{ textAlign: "center" }}>
-            <Typography variant="body2">Want to login as Admin?</Typography>
-            <Button
-              variant="text"
-              color="primary"
-              onClick={() =>
-                (window.location.href =
-                  "https://restaurant-admin-panel-nine.vercel.app")
-              }
-            >
-              Admin Login
-            </Button>
-          </CardContent>
-        </Card>
-      </Box>
     </Box>
   );
 };

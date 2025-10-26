@@ -3,6 +3,7 @@ import LoginPage from "./pages/Auth/LoginPage";
 import ForgetPage from "./pages/Auth/ForgetPage";
 import SignupPage from "./pages/Auth/SignupPage";
 import PublicRoute from "./pages/Auth/PublicRoute";
+import Dashboard from "./pages/Dashboard/Dashboard";
 
 const AppRoutes = () => {
   return (
@@ -32,6 +33,8 @@ const AppRoutes = () => {
           </PublicRoute>
         }
       />
+
+      <Route path="/dashboard" element={<Dashboard />} />
 
       {/* Redirect unknown routes */}
       <Route path="*" element={<Navigate to="/login" replace />} />

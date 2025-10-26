@@ -1,9 +1,7 @@
+import AppRoutes from "./route";
+
 function App() {
-  return (
-    <>
-      <h2>Student-progress-tracker</h2>
-    </>
-  );
+  return <AppRoutes />;
 }
 
 export default App;
