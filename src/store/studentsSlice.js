@@ -1,5 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { fetchStudents, addStudent, deleteStudent } from "../api/firebaseDB";
+import {
+  fetchStudents,
+  addStudent,
+  deleteStudent,
+  updateStudents,
+} from "../api/firebaseDB";
 
 export const getStudents = createAsyncThunk(
   "students/getStudents",
@@ -13,6 +18,14 @@ export const createStudent = createAsyncThunk(
   async (student) => {
     await addStudent(student);
     return await fetchStudents();
+  }
+);
+
+export const updateStudent = createAsyncThunk(
+  "students/updateStudent",
+  async (student) => {
+    const updatedStudent = await updateStudents(student);
+    return updatedStudent;
   }
 );
 
@@ -47,6 +60,13 @@ const studentsSlice = createSlice({
       })
       .addCase(createStudent.fulfilled, (state, action) => {
         state.list = action.payload;
+      })
+      .addCase(updateStudent.fulfilled, (state, action) => {
+        const updated = action.payload;
+        const index = state.list.findIndex((s) => s.id === updated.id);
+        if (index !== -1) {
+          state.list[index] = updated;
+        }
       })
       .addCase(removeStudent.fulfilled, (state, action) => {
         state.list = state.list.filter(

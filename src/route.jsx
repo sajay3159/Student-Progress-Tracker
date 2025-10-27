@@ -7,6 +7,7 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import ProtectedRoute from "./pages/Auth/ProtectedRoute";
 import Layout from "./components/Layout/Layout";
 import Students from "./pages/Students/Students";
+import Attendance from "./pages/Attendance/Attendance";
 
 const AppRoutes = () => {
   return (
@@ -46,7 +47,7 @@ const AppRoutes = () => {
       >
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/students" element={<Students />} />
-        {/* <Route path="/attendance" element={<Attendance />} /> */}
+        <Route path="/attendance" element={<Attendance />} />
         {/* <Route path="/marks" element={<Marks />} /> */}
         {/* <Route path="/reports" element={<Reports />} /> */}
       </Route>

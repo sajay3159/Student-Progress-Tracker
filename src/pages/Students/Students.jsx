@@ -19,7 +19,9 @@ import {
   getStudents,
   createStudent,
   removeStudent,
+  updateStudent,
 } from "../../store/studentsSlice";
+import { createAttendanceRecord } from "../../api/firebaseDB";
 import NotificationSnackbar from "../../components/Common/NotificationSnackbar";
 
 const Students = () => {
@@ -27,14 +29,16 @@ const Students = () => {
   const { list, status } = useSelector((state) => state.students);
 
   const [newStudent, setNewStudent] = useState({
+    id: null,
     name: "",
     email: "",
     grade: "",
     rollNumber: "",
-    attendance: "",
     phone: "",
     address: "",
   });
+
+  const [isEditing, setIsEditing] = useState(false);
 
   const [snackbar, setSnackbar] = useState({
     open: false,
@@ -42,11 +46,16 @@ const Students = () => {
     severity: "success",
   });
 
+  useEffect(() => {
+    dispatch(getStudents());
+  }, [dispatch]);
+
   const handleChange = (e) => {
     setNewStudent({ ...newStudent, [e.target.name]: e.target.value });
   };
 
-  const handleAddStudent = async () => {
+  // ✅ Add or Update student
+  const handleSubmit = async () => {
     if (!newStudent.name || !newStudent.grade || !newStudent.rollNumber) {
       setSnackbar({
         open: true,
@@ -57,28 +66,56 @@ const Students = () => {
     }
 
     try {
-      await dispatch(createStudent(newStudent)).unwrap();
-      setSnackbar({
-        open: true,
-        message: "Student added successfully!",
-        severity: "success",
-      });
+      if (isEditing) {
+        // Update existing student
+        await dispatch(updateStudent(newStudent)).unwrap();
+        setSnackbar({
+          open: true,
+          message: "Student updated successfully!",
+          severity: "success",
+        });
+      } else {
+        // Add new student
+        const result = await dispatch(createStudent(newStudent)).unwrap();
+
+        // Create attendance record
+        await createAttendanceRecord(result.id, {
+          name: result.name,
+          rollNumber: result.rollNumber,
+          grade: result.grade,
+          attendance: {},
+        });
+
+        setSnackbar({
+          open: true,
+          message: "Student added successfully!",
+          severity: "success",
+        });
+      }
+
+      // Reset form
       setNewStudent({
+        id: null,
         name: "",
         email: "",
         grade: "",
         rollNumber: "",
-        attendance: "",
         phone: "",
         address: "",
       });
+      setIsEditing(false);
     } catch (error) {
       setSnackbar({
         open: true,
-        message: error.message || "Failed to add student.",
+        message: error.message || "Operation failed.",
         severity: "error",
       });
     }
+  };
+
+  const handleEdit = (student) => {
+    setNewStudent(student);
+    setIsEditing(true);
   };
 
   const handleDelete = async (id) => {
@@ -98,20 +135,16 @@ const Students = () => {
     }
   };
 
-  useEffect(() => {
-    dispatch(getStudents());
-  }, [dispatch]);
-
   return (
     <Box>
       <Typography variant="h4" fontWeight={600} gutterBottom>
         Students
       </Typography>
 
-      {/* Add Form */}
+      {/* Add / Edit Form */}
       <Paper sx={{ p: 3, mb: 4 }}>
         <Typography variant="h6" gutterBottom>
-          Add New Student
+          {isEditing ? "Edit Student" : "Add New Student"}
         </Typography>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6} md={4}>
@@ -154,15 +187,6 @@ const Students = () => {
           </Grid>
           <Grid item xs={12} sm={6} md={4}>
             <TextField
-              label="Attendance (%)"
-              fullWidth
-              name="attendance"
-              value={newStudent.attendance}
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <TextField
               label="Phone Number"
               fullWidth
               name="phone"
@@ -180,9 +204,34 @@ const Students = () => {
             />
           </Grid>
           <Grid item xs={12}>
-            <Button variant="contained" onClick={handleAddStudent}>
-              Add Student
+            <Button
+              variant="contained"
+              color={isEditing ? "success" : "primary"}
+              onClick={handleSubmit}
+            >
+              {isEditing ? "Update Student" : "Add Student"}
             </Button>
+            {isEditing && (
+              <Button
+                sx={{ ml: 2 }}
+                variant="outlined"
+                color="secondary"
+                onClick={() => {
+                  setIsEditing(false);
+                  setNewStudent({
+                    id: null,
+                    name: "",
+                    email: "",
+                    grade: "",
+                    rollNumber: "",
+                    phone: "",
+                    address: "",
+                  });
+                }}
+              >
+                Cancel
+              </Button>
+            )}
           </Grid>
         </Grid>
       </Paper>
@@ -208,7 +257,6 @@ const Students = () => {
                 <TableCell>Email</TableCell>
                 <TableCell>Grade</TableCell>
                 <TableCell>Roll No</TableCell>
-                <TableCell>Attendance</TableCell>
                 <TableCell>Phone</TableCell>
                 <TableCell>Address</TableCell>
                 <TableCell>Actions</TableCell>
@@ -228,10 +276,15 @@ const Students = () => {
                     <TableCell>{student.email || "—"}</TableCell>
                     <TableCell>{student.grade}</TableCell>
                     <TableCell>{student.rollNumber}</TableCell>
-                    <TableCell>{student.attendance || "—"}</TableCell>
                     <TableCell>{student.phone || "—"}</TableCell>
                     <TableCell>{student.address || "—"}</TableCell>
                     <TableCell>
+                      <Button
+                        color="primary"
+                        onClick={() => handleEdit(student)}
+                      >
+                        Edit
+                      </Button>
                       <Button
                         color="error"
                         onClick={() => handleDelete(student.id)}
@@ -247,6 +300,7 @@ const Students = () => {
         </TableContainer>
       )}
 
+      {/* Snackbar */}
       <NotificationSnackbar
         open={snackbar.open}
         message={snackbar.message}
