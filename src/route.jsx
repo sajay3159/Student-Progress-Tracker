@@ -8,6 +8,8 @@ import ProtectedRoute from "./pages/Auth/ProtectedRoute";
 import Layout from "./components/Layout/Layout";
 import Students from "./pages/Students/Students";
 import Attendance from "./pages/Attendance/Attendance";
+import Marks from "./pages/Marks/Marks";
+import Reports from "./pages/Reports/Repoorts";
 
 const AppRoutes = () => {
   return (
@@ -48,8 +50,8 @@ const AppRoutes = () => {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/students" element={<Students />} />
         <Route path="/attendance" element={<Attendance />} />
-        {/* <Route path="/marks" element={<Marks />} /> */}
-        {/* <Route path="/reports" element={<Reports />} /> */}
+        <Route path="/marks" element={<Marks />} />
+        <Route path="/reports" element={<Reports />} />
       </Route>
 
       {/* Redirect unknown routes */}
