@@ -147,7 +147,7 @@ const Students = () => {
           {isEditing ? "Edit Student" : "Add New Student"}
         </Typography>
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={6} md={4}>
+          <Grid>
             <TextField
               label="Name"
               fullWidth
@@ -157,7 +157,7 @@ const Students = () => {
               required
             />
           </Grid>
-          <Grid item xs={12} sm={6} md={4}>
+          <Grid>
             <TextField
               label="Email"
               fullWidth
@@ -166,7 +166,7 @@ const Students = () => {
               onChange={handleChange}
             />
           </Grid>
-          <Grid item xs={12} sm={6} md={4}>
+          <Grid>
             <TextField
               label="Grade/Class"
               fullWidth
@@ -175,7 +175,7 @@ const Students = () => {
               onChange={handleChange}
             />
           </Grid>
-          <Grid item xs={12} sm={6} md={4}>
+          <Grid>
             <TextField
               label="Roll Number"
               fullWidth
@@ -185,7 +185,7 @@ const Students = () => {
               required
             />
           </Grid>
-          <Grid item xs={12} sm={6} md={4}>
+          <Grid>
             <TextField
               label="Phone Number"
               fullWidth
@@ -194,7 +194,7 @@ const Students = () => {
               onChange={handleChange}
             />
           </Grid>
-          <Grid item xs={12} sm={12} md={8}>
+          <Grid>
             <TextField
               label="Address"
               fullWidth
@@ -203,7 +203,7 @@ const Students = () => {
               onChange={handleChange}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid>
             <Button
               variant="contained"
               color={isEditing ? "success" : "primary"}
