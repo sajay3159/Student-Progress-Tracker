@@ -89,9 +89,7 @@ const Dashboard = () => {
         <Typography variant="h6" gutterBottom>
           Performance Overview
         </Typography>
-        <Typography color="text.secondary">
-          Chart coming soon... integrate using <code>chartHelper.js</code>
-        </Typography>
+        <Typography color="text.secondary">Chart coming soon...</Typography>
       </Paper>
     </Box>
   );
