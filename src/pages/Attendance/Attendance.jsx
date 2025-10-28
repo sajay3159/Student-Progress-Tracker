@@ -168,7 +168,7 @@ const Attendance = () => {
                   <TableCell align="center" sx={{ minWidth: 150 }}>
                     {stu.name}
                   </TableCell>
-                  <TableCell align="center">{stu.grade}</TableCell>
+                  <TableCell align="center">{stu.class}</TableCell>
 
                   {Array.from({ length: TOTAL_DAYS }, (_, i) => (
                     <TableCell

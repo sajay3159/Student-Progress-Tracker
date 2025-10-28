@@ -32,7 +32,7 @@ const Students = () => {
     id: null,
     name: "",
     email: "",
-    grade: "",
+    class: "",
     rollNumber: "",
     phone: "",
     address: "",
@@ -56,7 +56,7 @@ const Students = () => {
 
   // ✅ Add or Update student
   const handleSubmit = async () => {
-    if (!newStudent.name || !newStudent.grade || !newStudent.rollNumber) {
+    if (!newStudent.name || !newStudent.class || !newStudent.rollNumber) {
       setSnackbar({
         open: true,
         message: "Please fill all required fields",
@@ -82,7 +82,7 @@ const Students = () => {
         await createAttendanceRecord(result.id, {
           name: result.name,
           rollNumber: result.rollNumber,
-          grade: result.grade,
+          class: result.class,
           attendance: {},
         });
 
@@ -98,7 +98,7 @@ const Students = () => {
         id: null,
         name: "",
         email: "",
-        grade: "",
+        class: "",
         rollNumber: "",
         phone: "",
         address: "",
@@ -168,11 +168,12 @@ const Students = () => {
           </Grid>
           <Grid>
             <TextField
-              label="Grade/Class"
+              label="Class"
               fullWidth
-              name="grade"
-              value={newStudent.grade}
+              name="class"
+              value={newStudent.class}
               onChange={handleChange}
+              required
             />
           </Grid>
           <Grid>
@@ -222,7 +223,7 @@ const Students = () => {
                     id: null,
                     name: "",
                     email: "",
-                    grade: "",
+                    class: "",
                     rollNumber: "",
                     phone: "",
                     address: "",
@@ -255,7 +256,7 @@ const Students = () => {
               <TableRow>
                 <TableCell>Name</TableCell>
                 <TableCell>Email</TableCell>
-                <TableCell>Grade</TableCell>
+                <TableCell>Class</TableCell>
                 <TableCell>Roll No</TableCell>
                 <TableCell>Phone</TableCell>
                 <TableCell>Address</TableCell>
@@ -274,7 +275,7 @@ const Students = () => {
                   <TableRow key={student.id}>
                     <TableCell>{student.name}</TableCell>
                     <TableCell>{student.email || "—"}</TableCell>
-                    <TableCell>{student.grade}</TableCell>
+                    <TableCell>{student.class}</TableCell>
                     <TableCell>{student.rollNumber}</TableCell>
                     <TableCell>{student.phone || "—"}</TableCell>
                     <TableCell>{student.address || "—"}</TableCell>
