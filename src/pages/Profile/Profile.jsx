@@ -9,9 +9,9 @@ import {
 } from "@mui/material";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import firebaseConfig from "../../firebaseConfig";
 
-const DATABASE_URL =
-  "https://student-progress-tracker-54108-default-rtdb.firebaseio.com/users/";
+const DATABASE_URL = firebaseConfig.databaseURL;
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -28,7 +28,7 @@ const Profile = () => {
 
   const fetchProfileData = async () => {
     try {
-      const response = await fetch(`${DATABASE_URL}${userId}.json`);
+      const response = await fetch(`${DATABASE_URL}/users/${userId}.json`);
       const data = await response.json();
       if (data) {
         setName(data.name || "");
@@ -52,7 +52,7 @@ const Profile = () => {
         address,
       };
 
-      const response = await fetch(`${DATABASE_URL}${userId}.json`, {
+      const response = await fetch(`${DATABASE_URL}/users/${userId}.json`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
