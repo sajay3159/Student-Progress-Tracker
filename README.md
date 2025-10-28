@@ -3,6 +3,10 @@
 The **Student Progress Tracker** is a web application that helps teachers and students monitor academic performance and progress over time.  
 It uses **React**, **Material-UI (MUI)**, and **Redux** for the frontend and **Firebase** for backend services like authentication, database, and for hosting vercel.
 
+## 🚀 Live Demo
+
+🔗 [View Project on Vercel](https://student-progress-tracker-two-alpha.vercel.app)
+
 ---
 
 ## 🚀 Features
