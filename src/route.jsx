@@ -10,6 +10,7 @@ import Students from "./pages/Students/Students";
 import Attendance from "./pages/Attendance/Attendance";
 import Marks from "./pages/Marks/Marks";
 import Reports from "./pages/Reports/Repoorts";
+import Profile from "./pages/Profile/Profile";
 
 const AppRoutes = () => {
   return (
@@ -48,6 +49,7 @@ const AppRoutes = () => {
         }
       >
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="/students" element={<Students />} />
         <Route path="/attendance" element={<Attendance />} />
         <Route path="/marks" element={<Marks />} />

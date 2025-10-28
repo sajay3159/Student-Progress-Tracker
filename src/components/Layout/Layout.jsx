@@ -140,7 +140,7 @@ const Layout = () => {
 
           {isLoggedIn && (
             <Menu
-              sx={{ mt: "45px" }}
+              sx={{ mt: "10px" }}
               anchorEl={anchorElUser}
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
