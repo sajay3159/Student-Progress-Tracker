@@ -54,7 +54,7 @@ const Students = () => {
     setNewStudent({ ...newStudent, [e.target.name]: e.target.value });
   };
 
-  // ✅ Add or Update student
+  //  Add or Update student
   const handleSubmit = async () => {
     if (!newStudent.name || !newStudent.class || !newStudent.rollNumber) {
       setSnackbar({
@@ -136,7 +136,7 @@ const Students = () => {
   };
 
   return (
-    <Box>
+    <Box className="fade-in">
       <Typography variant="h4" fontWeight={600} gutterBottom>
         Students
       </Typography>
@@ -209,6 +209,7 @@ const Students = () => {
               variant="contained"
               color={isEditing ? "success" : "primary"}
               onClick={handleSubmit}
+              className={"animated-btn"}
             >
               {isEditing ? "Update Student" : "Add Student"}
             </Button>
@@ -282,12 +283,14 @@ const Students = () => {
                     <TableCell>
                       <Button
                         color="primary"
+                        className={"animated-btn"}
                         onClick={() => handleEdit(student)}
                       >
                         Edit
                       </Button>
                       <Button
                         color="error"
+                        className={"animated-btn"}
                         onClick={() => handleDelete(student.id)}
                       >
                         Delete

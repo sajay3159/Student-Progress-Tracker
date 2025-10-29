@@ -117,6 +117,7 @@ const LoginPage = () => {
                 color="primary"
                 fullWidth
                 disabled={loading}
+                className={"animated-btn"}
                 sx={{ borderRadius: 5 }}
               >
                 {loading ? (
