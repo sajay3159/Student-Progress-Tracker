@@ -13,6 +13,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { authActions } from "../../store/authSlice";
 import { loginUser } from "../../api/firebaseAuth";
+import { signInWithPopup } from "firebase/auth";
+import { auth, googleProvider } from "../../Firebase";
 
 const LoginPage = () => {
   const dispatch = useDispatch();
@@ -29,6 +31,7 @@ const LoginPage = () => {
     navigate("/forget");
   };
 
+  // Email / Password Login
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -60,6 +63,33 @@ const LoginPage = () => {
     }
   };
 
+  // Google Login
+  const handleGoogleLogin = async () => {
+    setLoading(true);
+    setError("");
+    setSuccess("");
+
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const user = result.user;
+
+      dispatch(
+        authActions.login({
+          token: await user.getIdToken(),
+          email: user.email,
+          uid: user.uid,
+        })
+      );
+
+      setSuccess("Login successful!");
+      navigate("/dashboard");
+    } catch (err) {
+      setError(err.message || "Google login failed. Try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <Box
       sx={{
@@ -76,7 +106,6 @@ const LoginPage = () => {
           <Typography variant="h5" textAlign="center" mb={2}>
             Login
           </Typography>
-
           <form onSubmit={handleSubmit}>
             <TextField
               label="Email Address"
@@ -117,7 +146,6 @@ const LoginPage = () => {
                 color="primary"
                 fullWidth
                 disabled={loading}
-                className={"animated-btn"}
                 sx={{ borderRadius: 5 }}
               >
                 {loading ? (
@@ -142,6 +170,44 @@ const LoginPage = () => {
               </MuiLink>
             </Box>
           </form>
+          <Typography
+            textAlign="center"
+            variant="subtitle2"
+            mt={2}
+            mb={1}
+            color="text.secondary"
+          >
+            OR
+          </Typography>
+          {/* Google Sign-In */}
+          <Box mt={2}>
+            <Button
+              variant="outlined"
+              fullWidth
+              onClick={handleGoogleLogin}
+              disabled={loading}
+              sx={{
+                borderRadius: 5,
+                textTransform: "none",
+                py: 1,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 1,
+                backgroundColor: "white",
+                borderColor: "#dadce0",
+                "&:hover": { backgroundColor: "#f7f7f7" },
+              }}
+            >
+              <img
+                src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+                alt="Google"
+                width={22}
+                height={22}
+              />
+              <span>Sign in with Google</span>
+            </Button>
+          </Box>
         </CardContent>
       </Card>
 
